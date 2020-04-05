@@ -1,0 +1,234 @@
+/* PAGE ACCUEIL */
+
+.bgAccueil {
+    background-image: url(img/fondAccueil.jpg);
+    background-size: 100% 100vh;
+    background-size: cover;
+}
+
+.accueil {
+    height: 100vh;
+    margin-left: 65%;
+    padding: 82px 0;
+}
+
+.accueil button {
+    border: solid 2px #661600;
+    color: #661600;
+    background: #D9AC71;
+    /*margin : 18% 25%;*/
+    margin: 2%;
+    padding: 8px 24px;
+    font-size: 1.2rem;
+    transition: background-color 0.5s ease-out;
+}
+
+.accueil button:hover {
+    background: #661600;
+    color: #ccab74;
+}
+
+div .group-btn {
+    text-align: center;
+}
+
+.flexAccueil {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flexAccueil img {
+    width: 90px;
+    height: auto;
+    margin-right: 30px;
+}
+
+.accroche {
+    border-left: solid #661600;
+    margin: 50px 30px 30px 30px;
+    padding-left: 30px;
+    width: 80%;
+}
+
+h1 {
+    font-family: 'Nothing You Could Do', cursive;
+    font-size: 3rem;
+}
+
+.inscriptionAccueil {
+    margin-left: 38%;
+}
+
+
+/* PAGE CONNEXION */
+
+.fond {
+    background-image: url(img/fond.jpg);
+    background-size: 100% 100vh;
+    background-size: cover;
+    height: 100vh;
+    padding-top: 75px;
+}
+
+.cadre {
+    background-color: rgba( 204, 171, 116, 0.5);
+    border: solid 2px #661600;
+    padding: 30px;
+    width: 60%;
+    margin: 0% auto;
+}
+
+.btnConnexion {
+    background: #661600;
+    color: #ccab74;
+    padding: 8px 75px;
+    font-size: 1.2rem;
+    margin: 25px 0 20px 0;
+}
+
+.btnConnexion:hover {
+    background: #ccab74;
+    color: #661600;
+    border: solid 2px #661600;
+}
+
+.flexConnexion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexConnexion img {
+    width: 90px;
+    height: auto;
+    margin-right: 30px;
+}
+
+.flexForm {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.flexForm label {
+    width: 100%;
+}
+
+.centerForm {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.rejoindre {
+    color: #661600;
+    text-decoration: underline;
+}
+
+
+/* -------------------------------------------- */
+
+.bg-dark {
+    background-color: #661600!important;
+}
+
+.bg-light {
+    background-color: #ccab74!important;
+}
+
+.ft-c-white {
+    color: #f1f0ee;
+}
+
+.ft-c-light {
+    color: #ccab74;
+}
+
+hr {
+    border-top: 1px solid #ccab74
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 1000;
+}
+
+@media (min-width:768px) {
+    .side-menu {
+        width: 20%;
+    }
+}
+
+.logo {
+    height: 15%;
+    background-image: url(../../img/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    margin-top: 30px;
+}
+
+.side-nav {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: calc(85% - 60px);
+    text-align: center;
+}
+
+.side-nav>ul>li {
+    font-size: large;
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+}
+
+@media (min-width:768px) {
+    .side-menu {
+        width: 20%;
+    }
+    .content {
+        width: 80%;
+    }
+}
+
+.welcome {
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    font-size: x-large;
+    padding: 20px;
+    font-weight: 600;
+}
+
+.content>.container {
+    position: absolute;
+    top: 12vh;
+}
+
+.card-custom>.card-body {
+    background-color: #2f3640;
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 92%;
+    overflow: hidden;
+    transition: height 0.2s;
+}
+
+.card-custom>.card-body:hover {
+    height: 100%;
+    transform: translate(0px, 0px);
+    overflow: auto;
+    transition: height 1s;
+}
