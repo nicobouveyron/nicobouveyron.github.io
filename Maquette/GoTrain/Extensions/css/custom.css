@@ -39,3 +39,25 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+.container-player>.nav-arrow {
+    width: 35px;
+    height: 35px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin: auto;
+    background-position-x: center;
+    opacity: 0.5;
+}
+
+.container-player>.left {
+    background-image: url("./../ico/nav_left.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.container-player>.right {
+    background-image: url("./../ico/nav_right.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
