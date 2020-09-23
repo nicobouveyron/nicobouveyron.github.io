@@ -35,6 +35,10 @@ a:hover {
   color: #f05f40;
 }
 
+.light-color-link{
+  color: var(#f05f40)!important;
+}
+
 h1,
 h2,
 h3,
