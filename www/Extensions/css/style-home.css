@@ -1,0 +1,188 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-dark: #522c1d;
+    --color-light: rgba(82, 44, 29, 0.95);
+    --color-secondary-dark: #5a291b;
+    --color-active: #dea695;
+    --color-inactive: #f18f00;
+    --color-brand: #f18f00;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-light);
+    opacity: 0.95;
+}
+.left{
+    position: absolute;
+    left: 0;
+    width: 20%;
+    height: 100%;
+}
+
+.logo{
+    width: 100%;
+    height: 25%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../../ressources/ico/logo-4m.png);
+    background-position-x: center;
+}
+
+.brand{
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background-color: var(--color-secondary-dark);
+    color: var(--color-brand);
+    text-align: center;
+    line-height: 2;
+    text-transform: uppercase;
+}
+
+.left > .about{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 70%;
+    background-color: var(--color-light);
+    left: 0;
+    right: 0;
+    margin: auto;
+
+}
+
+.left > .about > .actualites{
+    position: relative;
+    width: 100%;
+    height: 50%;
+}
+
+.left > .about > .actualites > .actualites-items{
+    
+}
+
+.left > .about > .horaires{
+    position: relative;
+    width: 100%;
+    height: 50%;
+}
+
+.left > .about > .horaires > .horaires-items{
+    
+}
+
+.right{
+    position: absolute;
+    right: 0;
+    width: 80%;
+    height: 100%;
+    /* background-color: rebeccapurple; */
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.right > .menu{
+    display: flex;
+    width: 95%;
+    height: 100px;
+    background-color: var(--color-light);
+    padding-top: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.right > .menu > .item{
+    position: relative;
+    width: calc(100%/5);
+    height: 100%;
+    cursor: pointer;
+}
+
+.right > .menu > .item > .libelle{
+    position: absolute;
+    width: 100%;
+    text-transform: uppercase;
+    color: var(--color-inactive);
+    text-align: center;
+}
+
+.right > .menu > .item > .libelle::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background-color: var(--color-inactive);
+    left: 0;
+    bottom: 0;
+    transform: translate(0px, 12px);
+}
+
+.right > .menu > .item + .active > .libelle::after{
+    background-color: var(--color-active);
+}
+.right > .menu > .item > div{
+    width: 100%;
+    height: 60%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: center;
+    margin-bottom: 9px;
+}
+
+.right > .menu > .item > .traiteur-logo{
+    background-image: url(./../../ressources/ico/nav-item-chef.png);
+}
+.right > .menu > .item > .charcuterie-logo{
+    background-image: url(./../../ressources/ico/nav-item-sausage.png);
+}
+.right > .menu > .item > .boucherie-logo{
+    background-image: url(./../../ressources/ico/nav-item-cut.png);
+}
+.right > .menu > .item > .portage-logo{
+    background-image: url(./../../ressources/ico/nav-item-lunch.png);
+}
+.right > .menu > .item > .au4m-logo{
+    background-image: url(./../../ressources/ico/nav-item-home.png);
+}
+
+.right > .contenu{
+    height: 81%;
+    left: 0;
+    width: 94%;
+    right: 0;
+    margin: auto;
+    background-color: var(--color-light);
+    /* top: 36px; */
+    position: absolute;
+    bottom: 50px;
+    overflow: auto;
+}
+
+@media screen and (max-width: 1000px) {
+    .left{
+        left: -10000px;
+    }
+    .right{
+        width: 100%;
+        height: 100%;
+    }
+    
+    .menu{
+        font-size: smaller;
+        width: 100% !important;
+        position: fixed;
+        z-index: 10;
+    }
+    .contenu{
+        font-size: smaller;
+        width: 100% !important;
+    }
+}

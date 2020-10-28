@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-dark: #522c1d;
+    --color-light: rgba(82, 44, 29, 0.95);
+    --color-secondary-dark: #5a291b;
+    --color-active: #dea695;
+    --color-inactive: #f18f00;
+}
+
+body {
+    background-color: var(--color-light);
+    opacity: 0.95;
+}
+
+body>.logo-au4m {
+    background-image: url(../../ressources/ico/logo-4m.png);
+}
+
+
+.navbar-custom {
+    display: flex;
+    background-color: var(--color-dark);
+    position: absolute;
+    right: 0;
+    justify-content: flex-start;
+}
+
+@media screen and (max-width: 600px) {
+    .navbar-custom {
+        flex-direction: column;
+        justify-content: center;
+    }
+  }
+
+.nav-item {
+    margin: 10px 50px 10px 50px;
+}
+
+.nav-item:after {
+    content: unset;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+    background-color: var(--color-inactive);
+}
+
+.nav-item>span {
+    color: var(--color-inactive);
+    width: 100%;
+}
+
+.img-item {
+    width: auto;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nav-item-sausage {
+    background-image: url(./../../ressources/ico/nav-item-sausage.png);
+}
+
+.nav-item-chef {
+    background-image: url(./../../ressources/ico/nav-item-chef.png);
+}
+
+.nav-item-cut {
+    background-image: url(./../../ressources/ico/nav-item-cut.png);
+}
+
+.nav-item-lunch {
+    background-image: url(./../../ressources/ico/nav-item-lunch.png);
+}
+
+.nav-item-home {
+    background-image: url(./../../ressources/ico/nav-item-home.png);
+}
