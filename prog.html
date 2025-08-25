@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Type 6A - 90 Jours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0;
+            background: white;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .setup-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .setup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .setup-content h2 {
+            color: #007AFF;
+            margin-bottom: 20px;
+        }
+        
+        .setup-content input[type="date"] {
+            padding: 12px;
+            border: 2px solid #007AFF;
+            border-radius: 8px;
+            margin: 10px;
+            font-size: 1em;
+        }
+        
+        .current-week-display {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 100px;
+            z-index: 99;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            background: #007AFF;
+            color: white;
+        }
+        
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+        
+        .nav-tab.active:hover {
+            background: #0056b3;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #007AFF;
+        }
+        
+        .card h2 {
+            color: #007AFF;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 {
+            color: #333;
+            font-size: 1.1em;
+            margin: 15px 0 10px 0;
+        }
+        
+        .emoji {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        .table th, .table td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 12px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .workout-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #28a745;
+            transition: all 0.3s ease;
+        }
+        
+        .workout-card.current-week {
+            background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+            border-left-color: #007AFF;
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.2);
+        }
+        
+        .workout-title {
+            font-weight: 600;
+            color: #28a745;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .current-week .workout-title {
+            color: #007AFF;
+        }
+        
+        .week-badge {
+            background: #007AFF;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        
+        .exercise-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .exercise-row:last-child {
+            border-bottom: none;
+        }
+        
+        .exercise-name {
+            flex: 2;
+            font-weight: 500;
+        }
+        
+        .exercise-details {
+            flex: 1;
+            text-align: right;
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .meal-card {
+            background: #fff3cd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .meal-card.current-week {
+            background: linear-gradient(135deg, #fff9e6, #fffcf0);
+            border-left-color: #007AFF;
+        }
+        
+        .meal-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .calories {
+            background: #28a745;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .calories.current {
+            background: #007AFF;
+            animation: pulse 2s infinite;
+        }
+        
+        .tip-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .tip-box strong {
+            color: #155724;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #007AFF;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #007AFF, #0056b3);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .nav-tab {
+                font-size: 0.75em;
+                padding: 10px 5px;
+            }
+            
+            .setup-content {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Setup Modal -->
+        <div id="setupModal" class="setup-modal hidden">
+            <div class="setup-content">
+                <h2>🚀 Démarrer votre programme</h2>
+                <p>Sélectionnez votre date de début pour synchroniser automatiquement votre progression :</p>
+                <input type="date" id="startDateInput" />
+                <br>
+                <button class="btn" onclick="startProgram()">Commencer le programme</button>
+            </div>
+        </div>
+        
+        <div class="header">
+            <h1>🏋️ Programme Type 6A</h1>
+            <p>Transformation 90 jours - Objectif : Physique sec et athlétique</p>
+            <div class="current-week-display" id="currentWeekDisplay">
+                Semaine 1/12 - Jour 1/7
+            </div>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('nutrition')">🍽️ Nutrition</button>
+            <button class="nav-tab" onclick="showTab('workout')">💪 Entraînement</button>
+            <button class="nav-tab" onclick="showTab('progress')">📊 Suivi</button>
+            <button class="nav-tab" onclick="showTab('tips')">💡 Conseils</button>
+        </div>
+        
+        <div class="content">
+            <!-- NUTRITION TAB -->
+            <div id="nutrition" class="tab-content active">
+                <div class="card">
+                    <h2><span class="emoji">🎯</span>Objectifs Caloriques Actuels</h2>
+                    <div id="current-calories-info">
+                        <h3>📅 Semaine actuelle : <span class="calories current" id="currentCalories">2350 Kcal/jour</span></h3>
+                        <p>Macros : 35% Protéines • 40% Glucides • 25% Lipides</p>
+                        <p id="caloriesProgress">Vous êtes dans votre première phase du programme</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">🍳</span>Menu du Jour</h2>
+                    <div id="daily-menu">
+                        <!-- Dynamically populated meals -->
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">📋</span>Évolution Calorique</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Semaines</th>
+                                <th>Calories/jour</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="caloriesTable">
+                            <!-- Dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💧 Hydratation :</strong> Minimum 2L d'eau par jour
+                </div>
+            </div>
+            
+            <!-- WORKOUT TAB -->
+            <div id="workout" class="tab-content">
+                <div class="card">
+                    <h2><span class="emoji">📋</span>Séance du Jour</h2>
+                    <div id="todayWorkout">
+                        <!-- Dynamically populated today's workout -->
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">📅</span>Planning Hebdomadaire</h2>
+                    <div id="weeklyWorkouts">
+                        <!-- Dynamically populated weekly workouts -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROGRESS TAB -->
+            <div id="progress" class="tab-content">
+                <div class="card">
+                    <h2><span class="emoji">📊</span>Statistiques du Programme</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="daysCompleted">1</div>
+                            <div class="stat-label">Jours complétés</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="weeksCompleted">1</div>
+                            <div class="stat-label">Semaines</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="daysRemaining">89</div>
+                            <div class="stat-label">Jours restants</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="progressPercent">1%</div>
+                            <div class="stat-label">Progression</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">📈</span>Progression Globale</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="globalProgress" style="width: 1%"></div>
+                    </div>
+                    <p id="progressMessage">Vous venez de commencer votre transformation !</p>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">📏</span>Suivi des Mesures</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mesure</th>
+                                <th>Fréquence</th>
+                                <th>Objectif 90j</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Poids</td>
+                                <td>1×/semaine</td>
+                                <td>-8 à -12kg</td>
+                                <td><button class="btn" onclick="logWeight()">Noter</button></td>
+                            </tr>
+                            <tr>
+                                <td>Tour de taille</td>
+                                <td>1×/semaine</td>
+                                <td>-10 à -15cm</td>
+                                <td><button class="btn" onclick="logWaist()">Noter</button></td>
+                            </tr>
+                            <tr>
+                                <td>Photos</td>
+                                <td>Tous les 15j</td>
+                                <td>Définition visible</td>
+                                <td><button class="btn" onclick="schedulePhotos()">Planifier</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">⚙️</span>Gestion du Programme</h2>
+                    <button class="btn btn-secondary" onclick="showSetup()">Modifier date de début</button>
+                    <button class="btn btn-danger" onclick="resetProgram()">Réinitialiser programme</button>
+                </div>
+            </div>
+            
+            <!-- TIPS TAB -->
+            <div id="tips" class="tab-content">
+                <div class="card">
+                    <h2><span class="emoji">✅</span>À Privilégier</h2>
+                    <p>• Aliments bruts et variés</p>
+                    <p>• Légumes, fruits, viandes/poissons/œufs</p>
+                    <p>• Légumineuses, oléagineux</p>
+                    <p>• Protéines à chaque repas</p>
+                    <p>• Planification des repas</p>
+                    <p>• Échauffement avant chaque séance</p>
+                    <p>• Technique avant performance</p>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">❌</span>À Éviter</h2>
+                    <p>• Produits ultra-transformés</p>
+                    <p>• Grignotage automatique</p>
+                    <p>• Diabolisation des macronutriments</p>
+                    <p>• Séances sans échauffement</p>
+                    <p>• Négliger la récupération</p>
+                    <p>• Comparer avec les autres</p>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">🏆</span>Clés de la Réussite</h2>
+                    <div class="tip-box">
+                        <strong>1. Consistance :</strong> Respecter le programme sans écart majeur
+                    </div>
+                    <div class="tip-box">
+                        <strong>2. Patience :</strong> Résultats visibles après 3-4 semaines
+                    </div>
+                    <div class="tip-box">
+                        <strong>3. Adaptation :</strong> Écouter son corps et ajuster
+                    </div>
+                    <div class="tip-box">
+                        <strong>4. Planification :</strong> Préparer repas et séances
+                    </div>
+                    <div class="tip-box">
+                        <strong>5. Suivi :</strong> Noter progrès et ajustements
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><span class="emoji">📱</span>Conseils d'Utilisation</h2>
+                    <div class="tip-box">
+                        <strong>Synchronisation automatique :</strong> Le programme calcule automatiquement votre semaine et jour actuels
+                    </div>
+                    <div class="tip-box">
+                        <strong>Suivi continu :</strong> Les calories et exercices s'adaptent selon votre progression
+                    </div>
+                    <div class="tip-box">
+                        <strong>Hors ligne :</strong> Fonctionne sans internet une fois chargé
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Program data
+        const programData = {
+            calories: [2350, 2250, 2150, 2050, 1950, 1850],
+            weekRanges: ['1-2', '3-4', '5-6', '7-8', '9-10', '11-12'],
+            workouts: [
+                'PUSH (Pectoraux, Épaules, Triceps)',
+                'PULL (Dos, Biceps)', 
+                'LEGS (Jambes, Abdos)',
+                'HALF BODY 1 (Haut du corps)',
+                'HALF BODY 2 (Bas du corps)',
+                'CARDIO (Optionnel)',
+                'REPOS'
+            ],
+            meals: [
+                { name: 'Petit-déjeuner', calories: 500, content: 'Pancakes protéinés (2 œufs + 50g flocons d\'avoine + 1 banane) • 150g fruits rouges' },
+                { name: 'Collation Matin', calories: 200, content: '1 pomme + 30g amandes' },
+                { name: 'Déjeuner', calories: 650, content: 'Tartine avocat œuf poché • Salade verte + légumes + vinaigrette olive' },
+                { name: 'Collation Après-midi', calories: 200, content: 'Yaourt grec + baies + noix' },
+                { name: 'Dîner', calories: 600, content: '150g dinde crème champignons • 200g épinards + 100g quinoa' }
+            ]
+        };
+
+        // Detailed workout programs
+        const workoutPrograms = {
+            'PUSH': {
+                exercises: [
+                    { name: 'Développé couché haltères rotation', sets: 4, reps: 12, rest: '1\'45' },
+                    { name: 'Biset : Écarté + Développé incliné', sets: 3, reps: '12+12', rest: '1\'30' },
+                    { name: 'Développé épaule debout', sets: 3, reps: 12, rest: '1\'30' },
+                    { name: 'Élévations latérales poulies', sets: 3, reps: 12, rest: '1\'15' },
+                    { name: 'Extension triceps haltères', sets: 3, reps: 12, rest: '1\'15' },
+                    { name: 'Pompes diamants', sets: 4, reps: 15, rest: '1\'00' },
+                    { name: '🔥 Circuit : Burpees', sets: 5, reps: 15, rest: '45"' }
+                ]
+            },
+            'PULL': {
+                exercises: [
+                    { name: 'Tractions / Tirage vertical', sets: 4, reps: 12, rest: '1\'45' },
+                    { name: 'Rowing barre/haltères', sets: 4, reps: 12, rest: '1\'45' },
+                    { name: 'Tirage horizontal serré', sets: 3, reps: 12, rest: '1\'30' },
+                    { name: 'Curl biceps alternés', sets: 3, reps: 12, rest: '1\'15' },
+                    { name: 'Curl marteau', sets: 3, reps: 12, rest: '1\'15' },
+                    { name: 'Face pull', sets: 4, reps: 15, rest: '1\'00' },
+                    { name: '🔥 Circuit : Mountain climbers', sets: 5, reps: 20, rest: '45"' }
+                ]
+            },
+            'LEGS': {
+                exercises: [
+                    { name: 'Squat', sets: 4, reps: 12, rest: '1\'45' },
+                    { name: 'Soulevé de terre roumain', sets: 4, reps: 12, rest: '1\'45' },
+                    { name: 'Fentes bulgares', sets: 3, reps: '12/jambe', rest: '1\'30' },
+                    { name: 'Leg press / Goblet squat', sets: 3, reps: 12, rest: '1\'30' },
+                    { name: 'Mollets debout', sets: 4, reps: 15, rest: '1\'00' },
+                    { name: 'Planche abdos', sets: 4, reps: '30-60"', rest: '1\'00' },
+                    { name: '🔥 Circuit : Jump squats', sets: 5, reps: 15, rest: '45"' }
+                ]
+            },
+            'HALF BODY 1': {
+                exercises: [
+                    { name: 'Combinaison exercices PUSH + PULL', sets: '', reps: '', rest: '' },
+                    { name: 'Focus mouvements polyarticulaires', sets: '', reps: '', rest: '' },
+                    { name: 'Durée : 45min à 1h', sets: '', reps: '', rest: '' }
+                ]
+            },
+            'HALF BODY 2': {
+                exercises: [
+                    { name: 'Variantes squats + soulevés', sets: '', reps: '', rest: '' },
+                    { name: 'Travail unilatéral', sets: '', reps: '', rest: '' },
+                    { name: 'Renforcement du core', sets: '', reps: '', rest: '' },
+                    { name: 'Durée : 45min à 1h', sets: '', reps: '', rest: '' }
+                ]
+            },
+            'CARDIO': {
+                exercises: [
+                    { name: 'HIIT 20min (30"/30")', sets: '', reps: '', rest: '' },
+                    { name: 'OU Cardio modéré 45min', sets: '', reps: '', rest: '' },
+                    { name: 'OU Circuit training 30min', sets: '', reps: '', rest: '' }
+                ]
+            },
+            'REPOS': {
+                exercises: [
+                    { name: '🛌 Jour de récupération', sets: '', reps: '', rest: '' },
+                    { name: 'Marche légère recommandée', sets: '', reps: '', rest: '' },
+                    { name: 'Étirements et mobilité', sets: '', reps: '', rest: '' }
+                ]
+            }
+        };
+
+        // App state
+        let appState = {
+            startDate: null,
+            currentWeek: 1,
+            currentDay: 1,
+            totalDays: 1,
+            isInitialized: false
+        };
+
+        // Initialize app
+        function initApp() {
+            const savedStartDate = localStorage.getItem('programStartDate');
+            
+            if (savedStartDate) {
+                appState.startDate = new Date(savedStartDate);
+                appState.isInitialized = true;
+                calculateCurrentState();
+                updateUI();
+            } else {
+                showSetup();
+            }
+        }
+
+        function showSetup() {
+            document.getElementById('setupModal').classList.remove('hidden');
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDateInput').value = today;
+        }
+
+        function startProgram() {
+            const startDateInput = document.getElementById('startDateInput').value;
+            if (!startDateInput) {
+                alert('Veuillez sélectionner une date de début');
+                return;
+            }
+            
+            appState.startDate = new Date(startDateInput);
+            localStorage.setItem('programStartDate', startDateInput);
+            appState.isInitialized = true;
+            
+            document.getElementById('setupModal').classList.add('hidden');
+            calculateCurrentState();
+            updateUI();
+        }
+
+        function calculateCurrentState() {
+            if (!appState.startDate) return;
+            
+            const today = new Date();
+            const startDate = new Date(appState.startDate);
+            const diffTime = Math.abs(today - startDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            
+            appState.totalDays = Math.min(diffDays, 90);
+            appState.currentWeek = Math.min(Math.ceil(diffDays / 7), 12);
+            appState.currentDay = ((diffDays - 1) % 7) + 1;
+        }
+
+        function updateUI() {
+            if (!appState.isInitialized) return;
+            
+            updateHeader();
+            updateNutrition();
+            updateWorkout();
+            updateProgress();
+        }
+
+        function updateHeader() {
+            const weekDisplay = document.getElementById('currentWeekDisplay');
+            weekDisplay.textContent = `Semaine ${appState.currentWeek}/12 - Jour ${appState.currentDay}/7`;
+        }
+
+        function updateNutrition() {
+            // Update current calories
+            const caloriesIndex = Math.floor((appState.currentWeek - 1) / 2);
+            const currentCalories = programData.calories[caloriesIndex];
+            
+            document.getElementById('currentCalories').textContent = `${currentCalories} Kcal/jour`;
+            
+            const progressText = document.getElementById('caloriesProgress');
+            const weekRange = programData.weekRanges[caloriesIndex];
+            progressText.textContent = `Semaines ${weekRange} - Phase ${caloriesIndex + 1}/6 du programme`;
+            
+            // Update daily menu
+            updateDailyMenu(currentCalories);
+            
+            // Update calories table
+            updateCaloriesTable();
+        }
+
+        function updateDailyMenu(targetCalories) {
+            const menuContainer = document.getElementById('daily-menu');
+            let totalCalories = 0;
+            
+            menuContainer.innerHTML = '';
+            
+            programData.meals.forEach(meal => {
+                totalCalories += meal.calories;
+                const mealDiv = document.createElement('div');
+                mealDiv.className = `meal-card ${appState.currentWeek ? 'current-week' : ''}`;
+                mealDiv.innerHTML = `
+                    <div class="meal-title">${meal.name} <span class="calories">${meal.calories} Kcal</span></div>
+                    <p>${meal.content}</p>
+                `;
+                menuContainer.appendChild(mealDiv);
+            });
+            
+            // Add adjustment note if needed
+            const adjustment = targetCalories - totalCalories;
+            if (adjustment !== 0) {
+                const adjustDiv = document.createElement('div');
+                adjustDiv.className = 'tip-box';
+                adjustDiv.innerHTML = `
+                    <strong>⚖️ Ajustement calorique :</strong> 
+                    ${adjustment > 0 ? `Ajouter ${adjustment} Kcal` : `Réduire de ${Math.abs(adjustment)} Kcal`} 
+                    (ajuster les portions selon vos besoins)
+                `;
+                menuContainer.appendChild(adjustDiv);
+            }
+        }
+
+        function updateCaloriesTable() {
+            const tableBody = document.getElementById('caloriesTable');
+            tableBody.innerHTML = '';
+            
+            programData.weekRanges.forEach((range, index) => {
+                const row = document.createElement('tr');
+                const isCurrentPhase = Math.floor((appState.currentWeek - 1) / 2) === index;
+                
+                if (isCurrentPhase) {
+                    row.style.backgroundColor = '#e3f2fd';
+                    row.style.fontWeight = 'bold';
+                }
+                
+                let status = '';
+                const phaseStartWeek = (index * 2) + 1;
+                if (appState.currentWeek > phaseStartWeek + 1) {
+                    status = '✅ Terminé';
+                } else if (isCurrentPhase) {
+                    status = '🔄 En cours';
+                } else {
+                    status = '⏳ À venir';
+                }
+                
+                row.innerHTML = `
+                    <td>Semaines ${range}</td>
+                    <td>${programData.calories[index]} Kcal</td>
+                    <td>${status}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function updateWorkout() {
+            updateTodayWorkout();
+            updateWeeklyWorkouts();
+        }
+
+        function updateTodayWorkout() {
+            const todayContainer = document.getElementById('todayWorkout');
+            const workoutIndex = (appState.currentDay - 1) % 7;
+            const todayWorkout = programData.workouts[workoutIndex];
+            
+            todayContainer.innerHTML = '';
+            
+            const workoutDiv = document.createElement('div');
+            workoutDiv.className = 'workout-card current-week';
+            
+            let workoutContent = `
+                <div class="workout-title">
+                    Aujourd'hui : ${todayWorkout}
+                    <span class="week-badge">ACTUEL</span>
+                </div>
+            `;
+            
+            const workoutType = todayWorkout.split(' ')[0];
+            if (workoutPrograms[workoutType]) {
+                const exercises = workoutPrograms[workoutType].exercises;
+                const adjustedReps = getAdjustedReps(appState.currentWeek);
+                
+                exercises.forEach(exercise => {
+                    workoutContent += `
+                        <div class="exercise-row">
+                            <div class="exercise-name">${exercise.name}</div>
+                            <div class="exercise-details">
+                                ${exercise.sets ? `${exercise.sets}×${adjustedReps || exercise.reps} - ${exercise.rest}` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            workoutDiv.innerHTML = workoutContent;
+            todayContainer.appendChild(workoutDiv);
+        }
+
+        function updateWeeklyWorkouts() {
+            const weeklyContainer = document.getElementById('weeklyWorkouts');
+            weeklyContainer.innerHTML = '';
+            
+            programData.workouts.forEach((workout, index) => {
+                const dayNumber = index + 1;
+                const isToday = dayNumber === appState.currentDay;
+                
+                const workoutDiv = document.createElement('div');
+                workoutDiv.className = `workout-card ${isToday ? 'current-week' : ''}`;
+                
+                const dayNames = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+                
+                workoutDiv.innerHTML = `
+                    <div class="workout-title">
+                        ${dayNames[index]} - ${workout}
+                        ${isToday ? '<span class="week-badge">AUJOURD\'HUI</span>' : ''}
+                    </div>
+                `;
+                
+                weeklyContainer.appendChild(workoutDiv);
+            });
+        }
+
+        function getAdjustedReps(week) {
+            if (week <= 2) return 12;
+            if (week <= 4) return '10-12';
+            if (week <= 6) return '8-10';
+            return 8;
+        }
+
+        function updateProgress() {
+            // Update stats
+            document.getElementById('daysCompleted').textContent = appState.totalDays;
+            document.getElementById('weeksCompleted').textContent = appState.currentWeek;
+            document.getElementById('daysRemaining').textContent = Math.max(0, 90 - appState.totalDays);
+            
+            const progressPercent = Math.round((appState.totalDays / 90) * 100);
+            document.getElementById('progressPercent').textContent = `${progressPercent}%`;
+            
+            // Update progress bar
+            document.getElementById('globalProgress').style.width = `${progressPercent}%`;
+            
+            // Update progress message
+            const progressMessage = document.getElementById('progressMessage');
+            let message = '';
+            
+            if (progressPercent <= 10) {
+                message = 'Vous venez de commencer votre transformation ! 🚀';
+            } else if (progressPercent <= 25) {
+                message = 'Excellent début ! Votre corps commence à s\'adapter 💪';
+            } else if (progressPercent <= 50) {
+                message = 'Vous êtes à mi-parcours ! Les premiers résultats arrivent 📈';
+            } else if (progressPercent <= 75) {
+                message = 'Superbe progression ! La transformation est en cours 🔥';
+            } else if (progressPercent < 100) {
+                message = 'Sprint final ! Vous approchez de votre objectif 🏆';
+            } else {
+                message = 'Félicitations ! Programme terminé avec succès ! 🎉';
+            }
+            
+            progressMessage.textContent = message;
+        }
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
+        }
+
+        function resetProgram() {
+            if (confirm('Êtes-vous sûr de vouloir réinitialiser le programme ? Toutes vos données seront perdues.')) {
+                localStorage.removeItem('programStartDate');
+                localStorage.removeItem('userMeasurements');
+                appState = {
+                    startDate: null,
+                    currentWeek: 1,
+                    currentDay: 1,
+                    totalDays: 1,
+                    isInitialized: false
+                };
+                showSetup();
+            }
+        }
+
+        // Measurement functions
+        function logWeight() {
+            const weight = prompt('Entrez votre poids actuel (en kg):');
+            if (weight && !isNaN(weight)) {
+                saveMeasurement('weight', weight);
+                alert('Poids enregistré avec succès !');
+            }
+        }
+
+        function logWaist() {
+            const waist = prompt('Entrez votre tour de taille actuel (en cm):');
+            if (waist && !isNaN(waist)) {
+                saveMeasurement('waist', waist);
+                alert('Tour de taille enregistré avec succès !');
+            }
+        }
+
+        function schedulePhotos() {
+            alert('📸 Rappel photos programmé !\n\nPensez à prendre vos photos de progression :\n• Face\n• Profil\n• Dos\n\nÀ la même heure et dans les mêmes conditions d\'éclairage.');
+        }
+
+        function saveMeasurement(type, value) {
+            const measurements = JSON.parse(localStorage.getItem('userMeasurements') || '{}');
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (!measurements[type]) {
+                measurements[type] = [];
+            }
+            
+            measurements[type].push({
+                date: today,
+                value: parseFloat(value),
+                week: appState.currentWeek
+            });
+            
+            localStorage.setItem('userMeasurements', JSON.stringify(measurements));
+        }
+
+        // Auto-refresh every minute to keep current day/week updated
+        setInterval(() => {
+            if (appState.isInitialized) {
+                calculateCurrentState();
+                updateUI();
+            }
+        }, 60000);
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
+    </script>
+</body>
+</html>
